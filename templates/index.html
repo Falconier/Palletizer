@@ -1,0 +1,61 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Palletizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory Input</h1>
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="item_number">Item Number:</label>
+                <input type="text" id="item_number" name="item_number" required>
+            </div>
+            <div class="form-group">
+                <label for="item_upc">Item UPC:</label>
+                <input type="text" id="item_upc" name="item_upc" required pattern="[0-9]{12}" title="UPC must be 12 digits">
+            </div>
+            <div class="form-group">
+                <label for="total_items">Total Items on Pallet:</label>
+                <input type="number" id="total_items" name="total_items" required min="1">
+            </div>
+            <div class="form-group">
+                <label for="total_weight">Total Approximated Weight (lbs):</label>
+                <input type="number" id="total_weight" name="total_weight" required min="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="in_boxes">
+                    <input type="checkbox" id="in_boxes" name="in_boxes" onchange="toggleBoxInputs()">
+                    Items are in Boxes
+                </label>
+            </div>
+            <div id="box_inputs" style="display: none;">
+                <div class="form-group">
+                    <label for="num_boxes">Number of Boxes:</label>
+                    <input type="number" id="num_boxes" name="num_boxes" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="items_per_box">Items per Box:</label>
+                    <input type="number" id="items_per_box" name="items_per_box" min="1">
+                </div>
+            </div>
+            <button type="submit">Send Entry</button>
+        </form>
+        <!-- <a href="{{ url_for('history') }}" class="history-link">View History</a> -->
+    </div>
+    <script>
+        function toggleBoxInputs() {
+            const checkbox = document.getElementById('in_boxes');
+            const boxInputs = document.getElementById('box_inputs');
+            boxInputs.style.display = checkbox.checked ? 'block' : 'none';
+            // Make box inputs required only when visible
+            const inputs = boxInputs.getElementsByTagName('input');
+            for (let input of inputs) {
+                input.required = checkbox.checked;
+            }
+        }
+    </script>
+</body>
+</html>

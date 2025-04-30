@@ -1,61 +1,88 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Palletizer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Submission Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Inventory Input</h1>
-        <form method="POST" action="/">
-            <div class="form-group">
-                <label for="item_number">Item Number:</label>
-                <input type="text" id="item_number" name="item_number" required>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <h2 class="text-2xl font-bold mb-6 text-center">Item Submission Form</h2>
+        <form id="itemForm" class="space-y-4">
+            <div>
+                <label for="item_upc" class="block text-sm font-medium text-gray-700">Item UPC</label>
+                <input type="text" id="item_upc" name="item_upc" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
             </div>
-            <div class="form-group">
-                <label for="item_upc">Item UPC:</label>
-                <input type="text" id="item_upc" name="item_upc" required pattern="[0-9]{12}" title="UPC must be 12 digits">
+            <div>
+                <label for="item_model_number" class="block text-sm font-medium text-gray-700">Model Number</label>
+                <input type="text" id="item_model_number" name="item_model_number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
             </div>
-            <div class="form-group">
-                <label for="total_items">Total Items on Pallet:</label>
-                <input type="number" id="total_items" name="total_items" required min="1">
+            <div>
+                <label for="item_part_number" class="block text-sm font-medium text-gray-700">Part Number</label>
+                <input type="text" id="item_part_number" name="item_part_number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
             </div>
-            <div class="form-group">
-                <label for="total_weight">Total Approximated Weight (lbs):</label>
-                <input type="number" id="total_weight" name="total_weight" required min="0" step="0.01">
+            <div>
+                <label for="item_name" class="block text-sm font-medium text-gray-700">Item Name</label>
+                <input type="text" id="item_name" name="item_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
             </div>
-            <div class="form-group">
-                <label for="in_boxes">
-                    <input type="checkbox" id="in_boxes" name="in_boxes" onchange="toggleBoxInputs()">
-                    Items are in Boxes
+            <div>
+                <label for="item_description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="item_description" name="item_description" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required></textarea>
+            </div>
+            <div>
+                <label for="item_image" class="block text-sm font-medium text-gray-700">Item Image</label>
+                <input type="file" id="item_image" name="item_image" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+            </div>
+            <div>
+                <label for="item_price" class="block text-sm font-medium text-gray-700">Price ($)</label>
+                <input type="number" id="item_price" name="item_price" step="0.01" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+            </div>
+            <div>
+                <label for="items_per_pallet" class="block text-sm font-medium text-gray-700">Items per Pallet</label>
+                <input type="number" id="items_per_pallet" name="items_per_pallet" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+            </div>
+            <div>
+                <label for="in_boxes" class="flex items-center">
+                    <input type="checkbox" id="in_boxes" name="in_boxes" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <span class="ml-2 text-sm font-medium text-gray-700">Packaged in Boxes</span>
                 </label>
             </div>
-            <div id="box_inputs" style="display: none;">
-                <div class="form-group">
-                    <label for="num_boxes">Number of Boxes:</label>
-                    <input type="number" id="num_boxes" name="num_boxes" min="1">
-                </div>
-                <div class="form-group">
-                    <label for="items_per_box">Items per Box:</label>
-                    <input type="number" id="items_per_box" name="items_per_box" min="1">
-                </div>
+            <div id="items_per_box_container" class="hidden">
+                <label for="items_per_box" class="block text-sm font-medium text-gray-700">Items per Box</label>
+                <input type="number" id="items_per_box" name="items_per_box" min="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             </div>
-            <button type="submit">Send Entry</button>
+            <div>
+                <label for="seller_id" class="block text-sm font-medium text-gray-700">Seller</label>
+                <select id="seller_id" name="seller_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                    <option value="" disabled selected>Select a seller</option>
+                    <option value="seller1">Acme Corp</option>
+                    <option value="seller2">Global Traders</option>
+                    <option value="seller3">Prime Supplies</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Submit</button>
+            </div>
         </form>
-        <!-- <a href="{{ url_for('history') }}" class="history-link">View History</a> -->
     </div>
     <script>
-        function toggleBoxInputs() {
-            const checkbox = document.getElementById('in_boxes');
-            const boxInputs = document.getElementById('box_inputs');
-            boxInputs.style.display = checkbox.checked ? 'block' : 'none';
-            // Make box inputs required only when visible
-            const inputs = boxInputs.getElementsByTagName('input');
-            for (let input of inputs) {
-                input.required = checkbox.checked;
+        document.getElementById('in_boxes').addEventListener('change', function() {
+            const itemsPerBoxContainer = document.getElementById('items_per_box_container');
+            itemsPerBoxContainer.classList.toggle('hidden', !this.checked);
+            if (this.checked) {
+                document.getElementById('items_per_box').required = true;
+            } else {
+                document.getElementById('items_per_box').required = false;
             }
-        }
+        });
+
+        document.getElementById('itemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Form submitted successfully!');
+            this.reset();
+            document.getElementById('items_per_box_container').classList.add('hidden');
+        });
     </script>
 </body>
 </html>

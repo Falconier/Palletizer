@@ -2,7 +2,7 @@
 
 #Variables
 CONTAINER_NAME="palletizer_container"
-IMAGE_NAME="Palletizer"
+IMAGE_NAME="palletizer"
 DOCKERFILE_PATH="."
 PORT_MAPPING="80:80"
 

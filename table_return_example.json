@@ -1,0 +1,37 @@
+[
+    {
+      "in_box": false,
+      "item_description": null,
+      "item_id": 1,
+      "item_model_number": null,
+      "item_name": "qwerty",
+      "item_part_number": null,
+      "item_price": "0.00",
+      "item_upc": "1234567890",
+      "items_per_box": null,
+      "items_per_pallet": 123
+    },
+    {
+      "in_box": false,
+      "item_description": null,
+      "item_id": 3,
+      "item_model_number": null,
+      "item_name": "quik",
+      "item_part_number": null,
+      "item_price": "0.00",
+      "item_upc": "039645111352",
+      "items_per_box": null,
+      "items_per_pallet": 56
+    },
+    {
+      "in_box": true,
+      "item_description": null,
+      "item_id": 4,
+      "item_model_number": null,
+      "item_name": "Manchester Multicolor 8-in x 8-in Glazed Porcelain Tile",
+      "item_part_number": null,
+      "item_price": "1.59",
+      "item_upc": "000001024129",
+      "items_per_box": null,
+      "items_per_pallet": 464
+    }

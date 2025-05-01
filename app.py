@@ -26,6 +26,22 @@ def get_db_connection():
 def index():
     return render_template('/add_inventory.html')
 
+@app.route('/inventory_table', methods=['GET'])
+def inventory_table():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM inventory')
+    rows = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+    cursor.close()
+    conn.close()
+
+    inventory_data = []
+    for row in rows:
+        inventory_data.append(dict(zip(columns, row)))
+
+    return jsonify(inventory_data), 200
+
 @app.route('/add_inventory', methods=['POST'])
 def add_inventory():
     data = request.get_json()
@@ -42,7 +58,9 @@ def add_inventory():
     
     item_upc = str(item_upc).replace(" ","")
     if item_upc.isdigit() and len(item_upc) == 12:
-        item_upc = str(item_upc).zfill(12)
+        item_upc = item_upc
+    elif item_upc.isdigit() and len(item_upc) < 12:
+        item_upc = item_upc.zfill(12)
     else:
         return jsonify({"error": "Invalid UPC code"}), 400
     

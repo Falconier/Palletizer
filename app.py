@@ -24,7 +24,7 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('/add_inventory.html')
 
 @app.route('/add_inventory', methods=['POST'])
 def add_inventory():
@@ -41,6 +41,7 @@ def add_inventory():
     if in_box:
         items_per_box = data.get('items_per_box')
     
+    
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('Insert into inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, item_cost, items_per_pallet, in_box, items_per_box) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -49,7 +50,7 @@ def add_inventory():
     cursor.close()
     conn.close()
 
-    return jsonify({"message": "Item added successfully", "item_id": item_id}), 201
+    return jsonify({"message": "Item added successfully"}), 201
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

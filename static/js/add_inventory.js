@@ -17,7 +17,6 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
         item_name: document.getElementById('item_name').value,
         item_desc: document.getElementById('item_description').value,
         item_price: document.getElementById('item_price').value,
-        item_cost: document.getElementById('item_cost').value,
         items_per_pallet: document.getElementById('items_per_pallet').value,
         in_box: document.getElementById('in_boxes').checked,
         items_per_box: document.getElementById('items_per_box_container').value,

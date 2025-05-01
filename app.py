@@ -34,18 +34,22 @@ def add_inventory():
     item_pn = data.get('item_part_number')
     item_name = data.get('item_name')
     item_desc = data.get('item_description')
-    item_price = data.get('item_price')
-    item_cost = data.get('item_cost')
+    item_price = data.get('item_price') 
     items_per_pallet = data.get('items_per_pallet')
     in_box = data.get('in_box')
     if in_box:
         items_per_box = data.get('items_per_box')
     
+    item_upc = str(item_upc).replace(" ","")
+    if item_upc.isdigit() and len(item_upc) == 12:
+        item_upc = str(item_upc).zfill(12)
+    else:
+        return jsonify({"error": "Invalid UPC code"}), 400
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('Insert into inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, item_cost, items_per_pallet, in_box, items_per_box) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                   (item_upc, item_mn, item_pn, item_name, item_desc, item_price, item_cost, items_per_pallet, in_box, items_per_box if in_box else None))               
+    cursor.execute('INSERT INTO inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, items_per_pallet, in_box, items_per_box) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+               (item_upc, item_mn, item_pn, item_name, item_desc, item_price, items_per_pallet, in_box, items_per_box if in_box else None))
     conn.commit()
     cursor.close()
     conn.close()

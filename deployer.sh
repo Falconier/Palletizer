@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Variables
-CONTAINER_NAME="portfolio_container"
-IMAGE_NAME="portfolio"
+CONTAINER_NAME="palletizer_container"
+IMAGE_NAME="Palletizer"
 DOCKERFILE_PATH="."
 PORT_MAPPING="80:80"
 

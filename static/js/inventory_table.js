@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    loadMembers();
+    loadInventory();
 });
 
-function loadMembers() {
+function loadInventory() {
     fetch('/inventory')
         .then(response => response.json())
         .then(items => {
@@ -11,7 +11,7 @@ function loadMembers() {
             items.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item.item_upc}</td>
+                    <td class="libre-barcode-128-text-regular">${item.item_upc}</td>
                     <td>${item.item_model_number}</td>
                     <td>${item.item_part_number}</td>
                     <td>${item.item_name}</td>

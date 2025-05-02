@@ -26,8 +26,8 @@ def get_db_connection():
 def index():
     return render_template('/add_inventory.html')
 
-@app.route('/inventory_table', methods=['GET'])
-def inventory_table():
+@app.route('/inventory', methods=['GET'])
+def inventory():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM inventory')
@@ -40,7 +40,11 @@ def inventory_table():
     for row in rows:
         inventory_data.append(dict(zip(columns, row)))
 
-    return jsonify(inventory_data), 200
+    return jsonify(inventory_data)
+
+@app.route('/inventory_table')
+def inventory_table():
+    return render_template('inventory_table.html')
 
 @app.route('/add_inventory', methods=['POST'])
 def add_inventory():

@@ -50,8 +50,8 @@ def inventory_table():
 def add_inventory():
     data = request.get_json()
     item_upc = data.get('item_upc')
-    item_mn = data.get('item_model_number')
-    item_pn = data.get('item_part_number')
+    item_mn = data.get('item_mn')
+    item_pn = data.get('item_pn')
     item_name = data.get('item_name')
     item_desc = data.get('item_description')
     item_price = data.get('item_price') 

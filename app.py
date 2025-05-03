@@ -42,9 +42,13 @@ def inventory():
 
     return jsonify(inventory_data)
 
-@app.route('/inventory_table')
+@app.route('/inventory_table', methods=['GET'])
 def inventory_table():
     return render_template('inventory_table.html')
+
+@app.route('/add_inventory', methods=['GET'])
+def add_inventory_form():
+    return render_template('add_inventory.html')
 
 @app.route('/add_inventory', methods=['POST'])
 def add_inventory():

@@ -11,10 +11,20 @@ CREATE TABLE inventory (
     items_per_box INTEGER            -- Number of items per box, nullable if in_box is false
 );
 
---sellers table
-seller_id
-seller_name
-seller_url
+CREATE TABLE InventorySellers (
+    inventory_seller_id INTEGER PRIMARY KEY IDENTITY(1,1),  -- Unique identifier for each inventory seller            -- Foreign key referencing the item in the inventory table
+    seller_name VARCHAR(256),       -- Name of the seller
+    seller_url VARCHAR(256),        -- URL of the seller's website
+);
+
+CREATE TABLE SellerSKUs (
+    seller_sku_id INTEGER PRIMARY KEY IDENTITY(1,1),  -- Unique identifier for each seller SKU
+    inventory_seller_id INTEGER,        -- Foreign key referencing the inventory_sellers table
+    item_id INTEGER,               -- Foreign key referencing the inventory table
+    seller_sku VARCHAR(256),        -- SKU assigned by the seller
+    FOREIGN KEY (inventory_seller_id) REFERENCES inventory_sellers(inventory_seller_id),  -- Foreign key constraint
+    FOREIGN KEY (item_id) REFERENCES inventory(item_id)  -- Foreign key constraint
+);
 
 --seller locations table -- for each seller (not needed right now)
 seller_location_id

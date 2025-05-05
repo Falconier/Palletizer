@@ -14,7 +14,7 @@ CREATE TABLE inventory (
 CREATE TABLE InventorySellers (
     inventory_seller_id INTEGER PRIMARY KEY IDENTITY(1,1),  -- Unique identifier for each inventory seller            -- Foreign key referencing the item in the inventory table
     seller_name VARCHAR(256),       -- Name of the seller
-    seller_url VARCHAR(256),        -- URL of the seller's website
+    seller_url VARCHAR(256) NULL,        -- URL of the seller's website
 );
 
 CREATE TABLE SellerSKUs (
@@ -22,28 +22,6 @@ CREATE TABLE SellerSKUs (
     inventory_seller_id INTEGER,        -- Foreign key referencing the inventory_sellers table
     item_id INTEGER,               -- Foreign key referencing the inventory table
     seller_sku VARCHAR(256),        -- SKU assigned by the seller
-    FOREIGN KEY (inventory_seller_id) REFERENCES inventory_sellers(inventory_seller_id),  -- Foreign key constraint
+    FOREIGN KEY (inventory_seller_id) REFERENCES InventorySellers(inventory_seller_id),  -- Foreign key constraint
     FOREIGN KEY (item_id) REFERENCES inventory(item_id)  -- Foreign key constraint
 );
-
---seller locations table -- for each seller (not needed right now)
-seller_location_id
-seller_location_name
-seller_location_address
-seller_location_city
-seller_location_state
-seller_location_zip
-
-
-
--- INSERT INTO inventory (
---     item_upc, 
---     item_model_number, 
---     item_part_number, 
---     item_name, 
---     item_description, 
---     item_price, 
---     items_per_pallet, 
---     in_box, 
---     items_per_box
--- ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);

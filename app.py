@@ -82,5 +82,27 @@ def add_inventory():
 
     return jsonify({"message": "Item added successfully"}), 201
 
+@app.route('/add_seller', methods=['GET'])
+def add_seller_form():
+    return render_template('add_seller.html')
+
+@app.route('/add_seller', methods=['POST'])
+def add_seller():
+    data = request.get_json()
+    seller_name = data.get('seller_name')
+    seller_website = data.get('seller_website')
+
+    if (not seller_name and not seller_website) or (seller_name == "" and seller_website == ""):
+        return jsonify({"error": "Seller name and website cannot be empty"}), 400
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO sellers (seller_name, seller_website) VALUES (?, ?)', (seller_name, seller_website))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return jsonify({"message": "Seller added successfully"}), 201
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

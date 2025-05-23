@@ -97,7 +97,7 @@ def add_seller():
     
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO sellers (seller_name, seller_website) VALUES (?, ?)', (seller_name, seller_website))
+    cursor.execute('INSERT INTO InventorySellers (seller_name, seller_url) VALUES (?, ?)', (seller_name, seller_website))
     conn.commit()
     cursor.close()
     conn.close()

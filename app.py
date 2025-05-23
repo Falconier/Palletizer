@@ -104,5 +104,20 @@ def add_seller():
 
     return jsonify({"message": "Seller added successfully"}), 201
 
+@app.route('/sellers', methods=['GET'])
+def get_sellers():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT inventory_seller_id, seller_name FROM InventorySellers')
+    rows = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+    cursor.close()
+    conn.close()
+    sellers_data = []
+    for row in rows:
+        sellers_data.append(dict(zip(columns, row)))
+    return jsonify(sellers_data)
+    
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)

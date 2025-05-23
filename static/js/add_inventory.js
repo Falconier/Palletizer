@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', () => {
+    loadSellers();
+});
+
 document.getElementById('in_boxes').addEventListener('change', function() {
     const itemsPerBoxContainer = document.getElementById('items_per_box_container');
     itemsPerBoxContainer.classList.toggle('hidden', !this.checked);
@@ -48,3 +52,19 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
         alert('Error adding item: ' + error.message);
     });
 });
+
+function loadSellers() {
+    fetch('/sellers')
+        .then(response => response.json())
+        .then(sellers => {
+            const sellerSelect = document.getElementById('seller_id');
+            sellerSelect.innerHTML = '';
+            sellers.forEach(seller => {
+                const option = document.createElement('option');
+                option.value = seller.seller_id;
+                option.textContent = seller.seller_name;
+                sellerSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error loading sellers:', error));
+}

@@ -54,16 +54,6 @@ def add_inventory_form():
 def add_inventory():
     data = request.get_json()
     item_upc = data.get('item_upc')
-    item_mn = data.get('item_mn')
-    item_pn = data.get('item_pn')
-    item_name = data.get('item_name')
-    item_desc = data.get('item_description')
-    item_price = data.get('item_price') 
-    items_per_pallet = data.get('items_per_pallet')
-    in_box = data.get('in_box')
-    if in_box:
-        items_per_box = data.get('items_per_box')
-    
     item_upc = str(item_upc).replace(" ","")
     if item_upc.isdigit() and len(item_upc) == 12:
         item_upc = item_upc
@@ -72,10 +62,28 @@ def add_inventory():
     else:
         return jsonify({"error": "Invalid UPC code"}), 400
     
+    item_mn = data.get('item_mn')
+    item_pn = data.get('item_pn')
+    item_name = data.get('item_name')
+    item_desc = data.get('item_description')
+    item_price = data.get('item_price') 
+    items_per_pallet = data.get('items_per_pallet')
+    
+    in_box = data.get('in_box')
+    if in_box:
+        items_per_box = data.get('items_per_box')
+    
+    seller_id = data.get('seller_id')
+    seller_sku = data.get('seller_sku')
+    ## consider using upc or part number as sku if sku is empty
+
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, items_per_pallet, in_box, items_per_box) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    cursor.execute('INSERT INTO inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, items_per_pallet, in_box, items_per_box) OUTPUT Inserted.item_id as returned_id VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
                (item_upc, item_mn, item_pn, item_name, item_desc, item_price, items_per_pallet, in_box, items_per_box if in_box else None))
+    rows = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+    print(rows)
     conn.commit()
     cursor.close()
     conn.close()

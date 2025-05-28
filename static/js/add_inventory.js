@@ -24,7 +24,8 @@ document.getElementById('itemForm').addEventListener('submit', function(e) {
         items_per_pallet: document.getElementById('items_per_pallet').value,
         in_box: document.getElementById('in_boxes').checked,
         items_per_box: document.getElementById('items_per_box_container').value,
-        seller_id: document.getElementById('seller_id').value
+        seller_id: document.getElementById('seller_id').value,
+        seller_sku: document.getElementById('seller_sku').value
     };
     fetch('/add_inventory', {
         method: 'POST',

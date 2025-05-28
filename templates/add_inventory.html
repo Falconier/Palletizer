@@ -28,7 +28,7 @@
             <form id="itemForm" class="space-y-4">
                 <div>
                     <label for="item_upc" class="block text-sm font-medium text-gray-700">Item UPC</label>
-                    <input type="text" id="item_upc" name="item_upc" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                    <input type="number" id="item_upc" name="item_upc" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                 </div>
                 <div>
                     <label for="item_model_number" class="block text-sm font-medium text-gray-700">Model Number</label>
@@ -69,6 +69,10 @@
                     <select id="seller_id" name="seller_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                         <option value="" disabled selected>Select a seller</option>      
                     </select>
+                </div>
+                <div>
+                    <label for="seller_sku" class="block text-sm font-medium text-gray-700">Seller SKU</label>
+                    <input type="text" id="seller_sku" name="seller_sku" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div>
                     <button type="submit" class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Submit</button>

@@ -55,7 +55,7 @@ def add_inventory():
     data = request.get_json()
     item_upc = data.get('item_upc')
     item_upc = str(item_upc).replace(" ","")
-    if item_upc.isdigit() and len(item_upc) == 12:
+    if item_upc.isdigit() and (len(item_upc) == 12 or len(item_upc) == 13):
         item_upc = item_upc
     elif item_upc.isdigit() and len(item_upc) < 12:
         item_upc = item_upc.zfill(12)

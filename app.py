@@ -81,7 +81,13 @@ def add_inventory():
     
     seller_id = int(data.get('seller_id'))
     seller_sku = data.get('seller_sku')
-    ## consider using upc or part number as sku if sku is empty
+    if seller_id == -1 and seller_sku != "":
+        return jsonify({"error": "Seller must be selected if seller SKU is provided"}), 400
+    if seller_id != -1 and seller_sku == "":
+        return jsonify({"error": "Seller SKU must be provided if seller is selected"}), 400
+    if seller_id == -1 and seller_sku == "":
+        seller_id = None
+        seller_sku = None
 
     print(type(item_upc), type(item_mn), type(item_pn), type(item_name), type(item_desc), type(item_price), type(items_per_pallet), type(in_box), type(items_per_box), type(seller_id), type(seller_sku))
 

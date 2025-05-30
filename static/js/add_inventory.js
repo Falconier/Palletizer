@@ -60,6 +60,10 @@ function loadSellers() {
         .then(sellers => {
             const sellerSelect = document.getElementById('seller_id');
             sellerSelect.innerHTML = '';
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '-1';
+            defaultOption.textContent = 'Select a seller';
+            sellerSelect.appendChild(defaultOption);
             sellers.forEach(seller => {
                 const option = document.createElement('option');
                 option.value = seller.inventory_seller_id;

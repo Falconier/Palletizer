@@ -62,28 +62,35 @@ def add_inventory():
     else:
         return jsonify({"error": "Invalid UPC code"}), 400
     
+    item_upc = int(item_upc)
+    if not item_upc:
+        return jsonify({"error": "UPC code cannot be empty"}), 400
+
     item_mn = data.get('item_mn')
     item_pn = data.get('item_pn')
     item_name = data.get('item_name')
     item_desc = data.get('item_description')
     item_price = data.get('item_price') 
-    items_per_pallet = data.get('items_per_pallet')
+    items_per_pallet = int(data.get('items_per_pallet'))
     
     in_box = data.get('in_box')
     if in_box:
-        items_per_box = data.get('items_per_box')
+        items_per_box = int(data.get('items_per_box'))
+    else:
+        items_per_box = None
     
-    seller_id = data.get('seller_id')
+    seller_id = int(data.get('seller_id'))
     seller_sku = data.get('seller_sku')
     ## consider using upc or part number as sku if sku is empty
 
+    print(type(item_upc), type(item_mn), type(item_pn), type(item_name), type(item_desc), type(item_price), type(items_per_pallet), type(in_box), type(items_per_box), type(seller_id), type(seller_sku))
+
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, items_per_pallet, in_box, items_per_box) OUTPUT Inserted.item_id as returned_id VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-               (item_upc, item_mn, item_pn, item_name, item_desc, item_price, items_per_pallet, in_box, items_per_box if in_box else None))
-    rows = cursor.fetchall()
-    columns = [column[0] for column in cursor.description]
-    print(rows)
+    ##cursor.execute('INSERT INTO inventory (item_upc, item_model_number, item_part_number, item_name, item_description, item_price, items_per_pallet, in_box, items_per_box) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    ##           (item_upc, item_mn, item_pn, item_name, item_desc, item_price, items_per_pallet, in_box, items_per_box if in_box else None))
+    cursor.execute('EXEC dbo.insert_inventory @item_upc=?, @item_model_number=?, @item_part_number=?, @item_name=?, @item_description=?, @item_price=?, @items_per_pallet=?, @in_box=?, @items_per_box=?, @inventory_seller_id=?, @seller_sku=?',
+                   (item_upc, item_mn, item_pn, item_name, item_desc, item_price, items_per_pallet, 1 if in_box else 0, items_per_box if in_box else None, seller_id, seller_sku))
     conn.commit()
     cursor.close()
     conn.close()

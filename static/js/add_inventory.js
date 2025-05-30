@@ -62,7 +62,7 @@ function loadSellers() {
             sellerSelect.innerHTML = '';
             sellers.forEach(seller => {
                 const option = document.createElement('option');
-                option.value = seller.seller_id;
+                option.value = seller.inventory_seller_id;
                 option.textContent = seller.seller_name;
                 sellerSelect.appendChild(option);
             });
